@@ -4,6 +4,7 @@ const url = 'api/posts/';
 
 class PostService {
     //Get Posts
+    /*
     static getPosts() {
         return new Promise((resolve,reject) => {
             axios.get(url).then((res) => {
@@ -19,6 +20,18 @@ class PostService {
                 reject(err);
             })
         });
+    }*/
+    static async getPosts()
+    {
+        try {
+            const res = await axios.get(url);
+            const data = res.data;
+            return data.map(
+                post => ({...post, createdAt: new Date(post.createdAt)})
+            );
+        } catch(err) {
+            return err;
+        }
     }
 
     //Create Post
