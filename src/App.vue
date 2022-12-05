@@ -1,5 +1,5 @@
 <template>
-  <div id="songlist">
+  <div id="app">
     <img alt="Spotify logo" src="./assets/Spotify_icon.svg.png" width="400" height="400">
     <PostComponent />
   </div>
