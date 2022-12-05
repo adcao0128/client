@@ -1,10 +1,40 @@
 <template>
   <div class="container">
-    <h1>Latest Posts</h1>
+    <h1>My Favorite Songs</h1>
     <div class="create-post">
-      <label for="create-post">Say Something...</label>
-      <input type="text" id="create-post" v-model="text" placeholder="Create a post">
-      <button v-on:click="createPost">Post!</button>
+      <div class="panel panel-success">
+        <div class="panel-heading">Song Information</div>
+        <div class="panel-body">
+          <form>
+            <div class="form-row form-group has-feedback" id="songform">
+              <div class="col-md-3">
+                <label for="song-name">Song Name</label>
+              </div>
+              <div class="col-md-9">              
+                <input v-model="song" class='form-control' type='text' name='song-name' id='song-name' placeholder="Type Song Name..." />
+              </div>
+            </div>
+            <div class="form-row form-group has-feedback" id="artistform">
+              <div class="col-md-3">
+                <label for="artist">Artist Name:</label>
+              </div>
+              <div class="col-md-9">
+                <input v-model="artist" class='form-control' type='text' name='artist' id='artist' placeholder="Type Artist Name..." />
+              </div>
+            </div>
+            <div class="form-row form-group has-feedback" id="Album">
+              <div class="col-md-3">
+                <label for="album">Album Name:</label>
+              </div>
+              <div class="col-md-9">
+                <input v-model="album" class='form-control' type='text' name='album' id='album' placeholder="Type Album Name..." />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <button id="submit" class="btn btn-success" v-on:click="createPost">Post!</button>
+      <h6>Double Click an Entry to Delete</h6>
     </div>
     <hr>
     <p class="error" v-if="error">{{ error }}</p>
@@ -16,8 +46,9 @@
       v-bind:key="post._id"
       v-on:dblclick="deletePost(post._id)"
       >
-        {{ `${post.createdAt.getDate()}/${post.createdAt.getMonth() + 1}/${post.createdAt.getFullYear()}` }}
-        <p class="text">{{ post.text }}</p>
+        <h1 class="display-4">Song Entry Information</h1>
+        <p class="text">{{ `Song Name: ${post.song}`}}<br>{{`Artist Name: ${post.artist}`}}<br>{{`Album Name: ${post.album} `}}</p>
+        {{ `Date Added to List: ${post.createdAt.getMonth() + 1}/${post.createdAt.getDate()}/${post.createdAt.getFullYear()}` }}
       </div>
     </div>
   </div>
@@ -25,6 +56,8 @@
 
 <script>
 import PostService from '../PostService';
+import $ from "jquery";
+
 
 export default {
   name: 'PostComponent',
@@ -32,7 +65,9 @@ export default {
     return {
       posts: [],
       error: '',
-      text: ''
+      song: '',
+      artist: '',
+      album: '',
     }
   },
   async created() {
@@ -44,7 +79,13 @@ export default {
   },
   methods: {
     async createPost() {
-      await PostService.insertPost(this.text);
+      await PostService.insertPost(this.song, this.artist, this.album);
+      this.song = '';
+      this.artist = '';
+      this.album = '';
+      $("#song-name").val('');
+      $("#artist").val('');
+      $("#album").val('');
       this.posts = await PostService.getPosts();
     },
     async deletePost(id) {
@@ -60,6 +101,17 @@ export default {
 div.container {
   max-width: 800px;
   margin: 0 auto;
+}
+
+#submit{
+  width: 100%;
+}
+
+.panel > .panel-heading {
+    background-image: none;
+    background-color: #5bd658;
+    color: white;
+
 }
 
 p.error {
