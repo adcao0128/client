@@ -4,7 +4,6 @@ const url = 'api/posts/';
 
 class PostService {
     //Get Posts
-    
     static getPosts() {
         return new Promise((resolve,reject) => {
             axios.get(url).then((res) => {
