@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PostComponent from './components/PostComponent.vue'
+import PostComponent from 'client/src/components/PostComponent.vue'
 
 export default {
   name: 'App',
