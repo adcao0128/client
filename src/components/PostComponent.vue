@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import PostService from 'client/src/PostService';
+import PostService from '../PostService';
 
 export default {
   name: 'PostComponent',
