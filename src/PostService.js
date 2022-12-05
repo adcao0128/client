@@ -21,8 +21,7 @@ class PostService {
             })
         });
     }*/
-    static async getPosts()
-    {
+    static async getPosts() {
         try {
             const res = await axios.get(url);
             const data = res.data;
